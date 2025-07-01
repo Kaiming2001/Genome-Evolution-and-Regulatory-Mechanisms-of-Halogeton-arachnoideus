@@ -9,7 +9,8 @@ nohup cmscan -Z 843 --cut_ga --rfam --nohmmonly --fmt 2 --tblout sample.tblout -
 awk 'BEGIN{OFS="\t";}{if(FNR==1) print "target_name\taccession\tquery_name\tquery_start\tquery_end\tstrand\tscore\tEvalue"; if(FNR>2 && $20!="=" && $0!~/^#/) print $2,$3,$4,$10,$11,$12,$17,$18; }' my-genome.tblout >genome.tblout.final.xls
 wget https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/database_files/family.txt.gz
 gunzip family.txt.gz
-cat family.txt | awk 'BEGIN {FS=OFS="\t"}{split($3,x,";");class=x[2];print $1,$2,$3,$4,class}' > rfam_anno.txt
+awk 'BEGIN {FS=OFS="\t"} {print $1 "\t" $2 "\t" $19}' rfam.txt > output2.txt
+less output2.txt | awk 'BEGIN {FS=OFS="\t"}{split($3,x,";");class=x[2];print $1,$2,$3,$4,class}' > rfam_anno.txt
 awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$2]=$5;}ARGIND==2{type=a[$1]; if(type=="") type="Others"; count[type]+=1;}END{for(type in count) print type, count[type];}' rfam_anno.txt sample.tblout.xls >sample.ncRNA.statistic
 ##tRNA 
 tRNAscan-SE genome.fa -o tRNA.out -f tRNA.ss -m tRNA.stats

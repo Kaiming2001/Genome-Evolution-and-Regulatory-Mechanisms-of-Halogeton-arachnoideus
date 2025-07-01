@@ -1,0 +1,44 @@
+#RNA annotation
+##miRNA and snRNA
+conda install -c bioconda infernal
+wget http://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.cm.gz
+gunzip Rfam.cm.gz
+wget http://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/Rfam.clanin
+cmpress Rfam.cm
+nohup cmscan -Z 843 --cut_ga --rfam --nohmmonly --fmt 2 --tblout sample.tblout -o sample.result --clanin Rfam.clanin Rfam.cm genome.fa &
+awk 'BEGIN{OFS="\t";}{if(FNR==1) print "target_name\taccession\tquery_name\tquery_start\tquery_end\tstrand\tscore\tEvalue"; if(FNR>2 && $20!="=" && $0!~/^#/) print $2,$3,$4,$10,$11,$12,$17,$18; }' my-genome.tblout >genome.tblout.final.xls
+wget https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/database_files/family.txt.gz
+gunzip family.txt.gz
+cat family.txt | awk 'BEGIN {FS=OFS="\t"}{split($3,x,";");class=x[2];print $1,$2,$3,$4,class}' > rfam_anno.txt
+awk 'BEGIN{OFS=FS="\t"}ARGIND==1{a[$2]=$5;}ARGIND==2{type=a[$1]; if(type=="") type="Others"; count[type]+=1;}END{for(type in count) print type, count[type];}' rfam_anno.txt sample.tblout.xls >sample.ncRNA.statistic
+##tRNA 
+tRNAscan-SE genome.fa -o tRNA.out -f tRNA.ss -m tRNA.stats
+##rRNA
+wget https://api.ncbi.nlm.nih.gov/datasets/v2/genome/download?filename=ncbi_dataset.zip&ncbi_phid=939B4B1AD2E31AD500004E25DBBC97DE.1.m_3.010
+makeblastdb -in genome.fasta -dbtype nucl -parse_seqids -out hara.fa
+blastn -query sole.fa -db hara.fa -evalue 1e-6 -outfmt 6 -num_threads 6 -out out_file
+
+#TE annotation
+conda install -c conda-forge -c bioconda edta python=3.6 tensorflow=1.14 'h5py<3
+perl ~/software/anaconda3/envs/EDTA/bin/EDTA.pl --genome genome.fa --sensitive 1 --anno 1 --threads 10
+
+#Function annotation
+##InterProscan GO
+interproscan.sh -f tsv -i Hara.pep.fa -o Hara.pep.fa.tsv -iprlookup -goterms -pa -t p
+awk -F "\t" '$11 != "-" {print $1"\t"$11}' Hara.pep.fa.tsv > Hara_GO_mapping.tsv
+awk -F "\t" '$9 != "-" {print $1"\t"$9}' Hara.pep.fa.tsv > Hara_InterPro_mapping.tsv
+##SwissProt
+makeblastdb -in uniprot_sprot.fasta -dbtype prot -title  uniprot_sprot -parse_seqids -out uniprot_sprot -logfile uniprot_sprot.log
+blastp -query Hara.pep -out swiss-prot.out  -db uniprot_sprot -evalue 1e-5 -outfmt 7 
+perl func_anno_stat.pl swiss_port.fasta.function swiss-prot.out > result.txt 
+cut -f 1  swiss-prot.out.function  |sort |uniq > final.result.txt
+##NR
+~/software/diamond/diamond/bin/diamond blastp --db /data/00/software/nr/diamand/nr --query Hara.pep  --out Hara.pep.nr.out 
+cut -f 1 Hara.pep.nr.out |sort |uniq > result.txt
+##KOG
+wget ftp://ftp.ncbi.nih.gov/pub/COG/KOG/kyva 
+wget ftp://ftp.ncbi.nih.gov/pub/COG/KOG/kog 
+wget ftp://ftp.ncbi.nih.gov/pub/COG/KOG/fun.txt
+makeblastdb -in kyva -dbtype prot -title kog -parse_seqids -out kog -logfile kog.log 
+blastp -query Hara.pep  -out kog.out  -db kog -evalue 1e-5 -outfmt 7 
+cut -f 1 kog.out | grep -v '^#' | sort | uniq > result.txt

@@ -1,0 +1,28 @@
+#HiFi
+samtools view species.bam | awk '{OFS="\t"; print ">"$1"\n"$10}' - > species.fa
+hifiasm -o hara.asm -t 20 hara.hifi_reads.bc2234.fa
+awk '/^S/{print ">"$2;print $3}' hara.asm.bp.p_ctg.gfa > hara.asm.bp.p_ctg.fa
+##N50
+perl fastaFileStatics_NoBioPerl.pl hara.asm.bp.p_ctg.fa > hara.N50.txt
+##busco
+busco -i hara.asm.bp.p_ctg.fa -o busco_output -l embryophyta_odb10 -m geno -c 16
+#HiC
+bwa index hara.asm.bp.p_ctg.fa
+bwa mem -5SP hara.asm.bp.p_ctg.fa /data/01/user282/data/01.hara/01.origindata/04.hic/Lz-hara-hic_raw_1.fq.gz /data/01/user282/data/01.hara/01.origindata/04.hic/Lz-hara-hic_raw_2.fq.gz >  Lz-hara.bp.hap1_2HiC.sam
+samblaster < Lz-hara.bp.hap1_2HiC.sam > hara.hap.sam 
+samtools view -@ 14 -S -h -b -F 3340 -o hara.hap.bam hara.hap.sam
+~/software/HapHiC/utils/filter_bam hara.hap.bam 1 --nm 3 --threads 14 | samtools view - -b -@ 14 -o hara.hap.filtered.bam
+~/software/HapHiC/haphic cluster hara.asm.bp.p_ctg.fa hara.hap.filtered.bam 9
+~/software/HapHiC/haphic reassign hara.asm.bp.p_ctg.fa full_links.pkl mcl_inflation_1.6.clusters.txt paired_links.clm --nclusters 9
+~/software/HapHiC/haphic sort hara.asm.bp.p_ctg.fa HT_links.pkl split_clms ~/reassignment/final_groups/group*.txt --processes 8
+~/software/HapHiC/haphic build hara.asm.bp.p_ctg.fa hara.asm.bp.p_ctg.fa hara.hap.filtered.bam ~/ordering-orientation/group*.tour
+#
+samtools faidx hara.asm.bp.p_ctg.fa
+~/software/yahs/yahs  /data/01/user282/workspace/hara.asm.bp.p_ctg.fa /data/01/user282/workspace/hara.hap.filtered.bam
+~/software/yahs/juicer pre -a -o hara_JBAT yahs.out.bin yahs.out_scaffolds_final.agp hara.asm.bp.p_ctg.fa.fai >out_JBAT.log 2>&1
+cat out_JBAT.log | grep PRE_C_SIZE | awk '{print $2" "$3}' >chrom.sizes
+juicer post -o out_JBAT out_JBAT.review.assembly hara_JBAT.liftover.agp yahs.out_scaffolds_final.fa
+java -jar -Xmx32G juicer_tools.1.9.9_jcuda.0.8.jar pre hara_JBAT.txt hara_JBAT.hic.part chrom.sizes
+mv hara_JBAT.hic.par hara.hic
+
+

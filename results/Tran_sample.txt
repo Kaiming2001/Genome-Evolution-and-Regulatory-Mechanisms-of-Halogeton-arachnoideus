@@ -1,0 +1,35 @@
+# sampleName,condition
+# D = Root samples (Down-ground tissue)
+# U = Leaf samples (Upper-ground tissue)
+# Sample naming convention example:
+# Hara-200mM-24-D-1 → Root replicate 1 under 200 mM NaCl (24 h)
+Hara-CK-D-1,Control-Roots
+Hara-CK-D-2,Control-Roots
+Hara-CK-D-3,Control-Roots
+Hara-CK-U-1,Control-Leaves
+Hara-CK-U-2,Control-Leaves
+Hara-CK-U-3,Control-Leaves
+Hara-200mM-6-D-1,200mM-6h-Roots
+Hara-200mM-6-D-2,200mM-6h-Roots
+Hara-200mM-6-D-3,200mM-6h-Roots
+Hara-200mM-6-U-1,200mM-6h-Leaves
+Hara-200mM-6-U-2,200mM-6h-Leaves
+Hara-200mM-6-U-3,200mM-6h-Leaves
+Hara-200mM-24-D-1,200mM-24h-Roots
+Hara-200mM-24-D-2,200mM-24h-Roots
+Hara-200mM-24-D-3,200mM-24h-Roots
+Hara-200mM-24-U-1,200mM-24h-Leaves
+Hara-200mM-24-U-2,200mM-24h-Leaves
+Hara-200mM-24-U-3,200mM-24h-Leaves
+Hara-400mM-6-D-1,400mM-6h-Roots
+Hara-400mM-6-D-2,400mM-6h-Roots
+Hara-400mM-6-D-3,400mM-6h-Roots
+Hara-400mM-6-U-1,400mM-6h-Leaves
+Hara-400mM-6-U-2,400mM-6h-Leaves
+Hara-400mM-6-U-3,400mM-6h-Leaves
+Hara-400mM-24-D-1,400mM-24h-Roots
+Hara-400mM-24-D-2,400mM-24h-Roots
+Hara-400mM-24-D-3,400mM-24h-Roots
+Hara-400mM-24-U-1,400mM-24h-Leaves
+Hara-400mM-24-U-2,400mM-24h-Leaves
+Hara-400mM-24-U-3,400mM-24h-Leaves

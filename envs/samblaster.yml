@@ -1,0 +1,17 @@
+name: samblaster0.1.26
+channels:
+  - conda-forge
+  - bioconda
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=2_gnu
+  - libgcc=15.1.0=h767d61c_4
+  - libgomp=15.1.0=h767d61c_4
+  - libstdcxx=15.1.0=h8f9b012_4
+  - samblaster=0.1.26=h9948957_6
+prefix: /groups/g1600002/home/xukm2024/software/anaconda3/envs/samblaster0.1.26

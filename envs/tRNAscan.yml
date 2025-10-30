@@ -1,0 +1,20 @@
+name: tRNAscan
+channels:
+  - conda-forge
+  - bioconda
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
+  - https://repo.anaconda.com/pkgs/main
+  - https://repo.anaconda.com/pkgs/r
+dependencies:
+  - _libgcc_mutex=0.1=conda_forge
+  - _openmp_mutex=4.5=2_gnu
+  - infernal=1.1.5=pl5321h7b50bb2_4
+  - libgcc=14.2.0=h767d61c_2
+  - libgcc-ng=14.2.0=h69a702a_2
+  - libgomp=14.2.0=h767d61c_2
+  - libxcrypt=4.4.36=hd590300_1
+  - perl=5.32.1=7_hd590300_perl5
+  - trnascan-se=2.0.12=pl5321h7b50bb2_2
+prefix: /groups/g1600002/home/xukm2024/software/anaconda3/envs/tRNAscan

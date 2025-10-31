@@ -23,7 +23,6 @@ Genome-Evolution-and-Regulatory-Mechanisms-of-Halogeton-arachnoideus/
 ├── results/
 │   ├── restored_GO.pl.out      # Output from GO annotation
 │   ├── Tran_sample.txt     # Transcriptome sample metadata (sample IDs, conditions)
-│   ├── gene_count_matrix.csv       # Raw gene count matrix for DEG analysis
 │   ├── 200.TPM.xlsx        # TPM matrix under 200 mM salt stress condition
 │   ├── 200cy_edges_strong.csv      # Strongly connected edges in GRN (200 mM condition)  
 │   ├── 200cy_nodes_strong.csv      # Node attributes in GRN (200 mM condition)
@@ -157,7 +156,7 @@ rRNA
 ```bash
 wget https://api.ncbi.nlm.nih.gov/datasets/v2/genome/download?filename=ncbi_dataset.zip&ncbi_phid=939B4B1AD2E31AD500004E25DBBC97DE.1.m_3.010
 makeblastdb -in genome.fasta -dbtype nucl -parse_seqids -out hara.fa
-blastn -query sole.fa -db hara.fa -evalue 1e-6 -outfmt 6 -num_threads 6 -out out_file
+blastn -query sole.fa -db hara.fa -outfmt 6 -num_threads 6 -out out_file
 ```
 
 ## 3. function annotation
@@ -224,5 +223,6 @@ The prepDE.py script (https://github.com/gpertea/stringtie) was used to convert 
 Differential expression genes were identified using [DEseq2] v1.42.0.
 
 # GRN: scripts/GRN.R
+
 
 Use [GENIE3] v1.28.0 R package to reconstruct salt stress-responsive gene regulatory networks (GRNs).

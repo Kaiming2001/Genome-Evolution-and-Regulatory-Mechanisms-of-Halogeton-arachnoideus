@@ -13,7 +13,7 @@ library(ggplot2)
 # --- 2. Define working directory and input ---
 setwd("./result/")  # Relative path (portable)
 getwd()
-# Input count matrix file (rows = genes, columns = samples)
+# Input count matrix file (rows = genes, columns = samples) is generated using the prepDE.py script, which converts the output files from StringTie into a gene-level count matrix suitable for differential expression analysis.
 # e.g., count_matrix.csv
 countData <- as.matrix(read.csv("count_matrix.csv", row.names = "gene_id"))
 colData   <- read.csv("sample_info.csv", header = TRUE, row.names = 1)
@@ -58,4 +58,5 @@ write.csv(diff, out_deg, quote = FALSE)
 out_list <- paste0("degresults/degresults_DEGlist_", contrast_name, ".txt")
 write.table(rownames(diff),
               paste0("results/DESeq2_DEGlist_", contrast_name, ".txt"),
+
               quote = FALSE, row.names = FALSE, col.names = FALSE)

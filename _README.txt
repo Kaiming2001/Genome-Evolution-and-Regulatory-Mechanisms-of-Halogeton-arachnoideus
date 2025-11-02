@@ -106,15 +106,13 @@ gffread species.gtf -g genome.fa -w transcripts.fa
 TransDecoder.LongOrfs -t transcripts.fa 
 TransDecoder.Predict -t transcripts.fa
 ```
-ab initio: [AUGUSTUS] v3.3.3
+ab initio: [AUGUSTUS] v3.3.3, incorporating gene model training based on evidence from homology and transcriptome-based predictions.
 ```bash
 wget -c http://bioinf.uni-greifswald.de/augustus/binaries/augustus.current.tar.gz
 tar -xzvf augustus.current.tar.gz
 cd augustus
 make
-run_BUSCO.py -i genome.fa -o Chr_dpecies -l ./BUSCO_data/embryophyta_odb10 -m geno -c 160 -sp arabidopsis --long
-cp -r Chr_species/run_*/augustus_output/retraining_parameters .ab/BUSCO  #Copy the parameter file to the AUGUSTUS configuration directory.
-augustus --species=BUSCO genome.fa --softmasking=1 --gff3=on > augustus.gff
+augustus --gff3=on --species=Hara --hintsfile=hints.gff --extrinsicCfgFile=extrinsic.cfg --allow_hinted_splicesites=gcag,atac --alternatives-from-evidence=true --min_intron_len=30 --softmasking=1 genome.fa > augustus.gff3
 ```
 EVM: Install the software [EVidenceModeler] V1.1.1(https://github.com/EVidenceModeler/EVidenceModeler/wiki); ./genewise ./transcripts ./abinitio are folders that store the results of homology-based, transcriptome-based, and ab initio methods respectively.
 ```bash
@@ -226,5 +224,6 @@ Differential expression genes were identified using [DEseq2] v1.42.0.
 
 
 Use [GENIE3] v1.28.0 R package to reconstruct salt stress-responsive gene regulatory networks (GRNs).
+
 
 

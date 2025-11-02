@@ -94,7 +94,7 @@ wget http://www.ebi.ac.uk/~birney/wise2/wise2.4.1.tar.gz
 tar zxf wise2.4.1.tar.gz -C /opt/biosoft/
 cd /opt/biosoft/src
 make all
-genewise protein.fasta genome.fa -tfor -both -gff > output.gff  
+genewise protein.fasta genome.fa > output.gff  
 ```
 transcriptome-based: Install the software [Fastp] v0.20.0(https://github.com/OpenGene/fastp), [HISAT2] v2.1.0(https://github.com/DaehwanKimLab/hisat2), [StringTie] v2.2.1(https://github.com/gpertea/stringtie), [gffread] v0.12.7(https://github.com/gpertea/gffread) and [transdecoder] v5.5.0(https://github.com/TransDecoder/TransDecoder).
 ```bash 
@@ -226,4 +226,5 @@ Differential expression genes were identified using [DEseq2] v1.42.0.
 
 
 Use [GENIE3] v1.28.0 R package to reconstruct salt stress-responsive gene regulatory networks (GRNs).
+
 

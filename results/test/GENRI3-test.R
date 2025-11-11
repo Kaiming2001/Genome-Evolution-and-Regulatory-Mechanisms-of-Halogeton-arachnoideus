@@ -19,7 +19,7 @@ expr <- as.matrix(expr)
 
 
 # ---------- 2. Stable selection function ----------
-run_genie3_bootstrap <- function(expr_mat, tf_list, n_boot = 100, subsample = 0.8, nCores = 4) {
+run_genie3_bootstrap <- function(expr_mat, tf_list, n_boot = 1000, subsample = 0.8, nCores = 4) {
   genes <- rownames(expr_mat)
   edge_list_all <- list()
   
@@ -40,18 +40,18 @@ run_genie3_bootstrap <- function(expr_mat, tf_list, n_boot = 100, subsample = 0.
 }
 
 # ---------- 3. Choose stable operation ----------
-edge_list_all <- run_genie3_bootstrap(expr, tf_list, n_boot = 100, subsample = 0.8, nCores = 6)
+edge_list_all <- run_genie3_bootstrap(expr, tf_list, n_boot = 1000, subsample = 0.8, nCores = 6)
 
 # ---------- 4. Calculate the frequency of the appearance of the edges ----------
 all_edges <- bind_rows(edge_list_all) %>%
   group_by(regulatoryGene, targetGene) %>%
-  summarise(freq = n()/100, mean_weight = mean(weight, na.rm = TRUE), .groups = "drop")
+  summarise(freq = n()/1000, mean_weight = mean(weight, na.rm = TRUE), .groups = "drop")
 
 # ---------- 5. Select high-confidence edges ----------
 stable_edges <- all_edges %>% filter(freq >= 0.7) %>% arrange(desc(freq), desc(mean_weight))
 
 # ---------- 6. Export ----------
-write.csv(stable_edges, "1GRN_stable_edges_200mM.csv", row.names = FALSE)
+write.csv(stable_edges, "GRN_stable_edges_200mM.csv", row.names = FALSE)
 
 # ---------- 7. Summary ----------
 summary(stable_edges$freq)
@@ -62,10 +62,11 @@ full_weight <- GENIE3(expr, regulators=tf_list, nTrees=1000)
 full_links <- getLinkList(full_weight)
 write.csv(full_links, "GRN_edges_200mM.csv", row.names = FALSE)
 # ---------- Calculate the correlation ----------
-stable_edges <- read.csv("GRN_stable_edges_400mM.csv")
-full_links <- read.csv("GRN_edges_400mM.csv")
+stable_edges <- read.csv("GRN_stable_edges_200mM.csv")
+full_links <- read.csv("GRN_edges_200mM.csv")
 merged_df <- merge(full_links, stable_edges, by=c("regulatoryGene","targetGene"))
 names(merged_df)
 
 merge(full_links, stable_edges, by=c("regulatoryGene","targetGene")) %>%
+
   summarise(cor = cor(merged_df$weight, merged_df$mean_weight, use = "complete.obs")) #默认method = "pearson"

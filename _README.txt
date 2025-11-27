@@ -105,8 +105,8 @@ genewise protein.fasta genome.fa -tfor -both -gff > output.gff
 transcriptome-based: Install the software [Fastp] v0.20.0(https://github.com/OpenGene/fastp), [HISAT2] v2.1.0(https://github.com/DaehwanKimLab/hisat2), [StringTie] v2.2.1(https://github.com/gpertea/stringtie), [gffread] v0.12.7(https://github.com/gpertea/gffread) and [transdecoder] v5.5.0(https://github.com/TransDecoder/TransDecoder).
 ```bash 
 fastp -i R1.fastq.gz -o R1.clean_1.fq.gz -I R2.fastq.gz -O R2.clean_2.fq.gz
-hisat2-build genome.fa genome_index
-hisat2 -p 5 -x genome_index -1 R1.clean_1.fq.gz -2 R2.clean_2.fq.gz -S species.sam --summary-file species.hisat.out;samtools sort species.sam -O BAM -T species -l 3 -o species.sort.bam  && rm species.sam
+hisat2-build genome.fa genome_index 
+hisat2 -p 5 -x genome_index -1 R1.clean_1.fq.gz -2 R2.clean_2.fq.gz -S species.sam --max-intronlen 20000 --dta --score-min L, 0.0, -0.4 --summary-file species.hisat.out;samtools sort species.sam -O BAM -T species -l 3 -o species.sort.bam  && rm species.sam
 stringtie -p 5 species.sort.bam -o species.gtf 
 gffread species.gtf -g genome.fa -w transcripts.fa
 TransDecoder.LongOrfs -t transcripts.fa 
@@ -227,5 +227,6 @@ The prepDE.py script (https://github.com/gpertea/stringtie) was used to convert 
 Differential expression genes were identified using [DEseq2] v1.42.0.
 
 # GRN: scripts/GRN.R
+
 
 Use [GENIE3] v1.28.0 R package to reconstruct salt stress-responsive gene regulatory networks (GRNs).

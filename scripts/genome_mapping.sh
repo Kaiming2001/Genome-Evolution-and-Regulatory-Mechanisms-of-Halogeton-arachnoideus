@@ -11,7 +11,7 @@ bwa index $contigs
 bwa mem -5SP $contigs $read1 $read2 > ${prefix}.sam
 # Step 3: Deduplicate with samblaster v0.1.26
 samblaster < ${prefix}.sam > ${prefix}.dedup.sam
-# Step 4: Convert to BAM and filter
+# Step 4: Convert to BAM and filter by samtools v1.10
 samtools view -@ 14 -S -h -b -F 3340 -o ${prefix}-HiC.bam ${prefix}.dedup.sam
 # Step 5: Filter BAM by MAPQ
 /path/to/HapHiC/utils/filter_bam ${prefix}-HiC.bam 1 --nm 3 --threads 14 | samtools view - -b -@ 14 -o ${prefix}-HiC.filtered.bam

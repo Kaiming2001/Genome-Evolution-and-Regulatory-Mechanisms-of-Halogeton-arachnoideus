@@ -39,7 +39,6 @@ for SAMPLE in $(ls ${WORKDIR}/*_R1.fastq.gz | sed 's/_R1.fastq.gz//' | xargs -n1
         -I ${WORKDIR}/${SAMPLE}_R2.fastq.gz \
         -o ${CLEAN_DIR}/${SAMPLE}/${SAMPLE}_clean_R1.fq.gz \
         -O ${CLEAN_DIR}/${SAMPLE}/${SAMPLE}_clean_R2.fq.gz \
-        -q 20 -u 30 -n 10 -l 50 \
 done
 
 # =========================================================

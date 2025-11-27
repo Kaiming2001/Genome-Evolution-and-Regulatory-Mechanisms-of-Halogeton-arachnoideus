@@ -71,5 +71,6 @@ merged_links <- full_join(link_6h, link_24h, by = c("regulator", "target")) %>%
 up_regulated <- merged_links %>% filter(diff > 0.03)
 down_regulated <- merged_links %>% filter(diff < -0.03)
 # Up-regulated edges denote stronger regulatory interactions at 24 h, whereas 'down' indicates stronger interactions at 6 h.
-write.csv(up_regulated, "200.upregulated_TF_edges.csv", row.names = FALSE)
-write.csv(down_regulated, "200.downregulated_TF_edges.csv", row.names = FALSE)
+write.csv(up_regulated, "200.24hregulated_TF_edges.csv", row.names = FALSE)
+write.csv(down_regulated, "200.6hregulated_TF_edges.csv", row.names = FALSE)
+

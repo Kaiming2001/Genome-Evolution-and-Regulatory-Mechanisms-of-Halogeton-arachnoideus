@@ -9,7 +9,7 @@ prefix=$5
 bwa index $contigs
 # Step 2: Align Hi-C reads
 bwa mem -5SP $contigs $read1 $read2 > ${prefix}.sam
-# Step 3: Deduplicate with samblaster
+# Step 3: Deduplicate with samblaster v0.1.26
 samblaster < ${prefix}.sam > ${prefix}.dedup.sam
 # Step 4: Convert to BAM and filter
 samtools view -@ 14 -S -h -b -F 3340 -o ${prefix}-HiC.bam ${prefix}.dedup.sam

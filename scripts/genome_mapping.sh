@@ -7,7 +7,7 @@ nchrs=$4
 prefix=$5
 # Step 1: Index contigs
 bwa index $contigs
-# Step 2: Align Hi-C reads
+# Step 2: Align Hi-C reads by BWA-MEM v0.7.17-r1188
 bwa mem -5SP $contigs $read1 $read2 > ${prefix}.sam
 # Step 3: Deduplicate with samblaster v0.1.26
 samblaster < ${prefix}.sam > ${prefix}.dedup.sam

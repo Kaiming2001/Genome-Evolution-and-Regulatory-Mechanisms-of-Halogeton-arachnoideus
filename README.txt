@@ -32,18 +32,18 @@ Genome-Evolution-and-Regulatory-Mechanisms-of-Halogeton-arachnoideus/
 │   └── 400cy_nodes_strong.csv      # Node attributes in GRN (400 mM condition)
 │   └── TF-TF/ 
 │       ├── 200TF.TPM.xlsx      # Only the values of TF TPM under 200 mM salt stress condition
-│       ├── 200.upregulated_TF_edges.csv        # Strongly connected edges, upregulated edges denote stronger regulatory interactions at 24 h, whereas 'down' indicates stronger interactions at 6 h (200 mM condition).
-│       ├── 200.downregulated_TF_edges.csv   
+│       ├── 200.24hregulated_TF_edges.csv        # Strongly connected edges, upregulated edges denote stronger regulatory interactions at 24 h, whereas 'down' indicates stronger interactions at 6 h (200 mM condition).
+│       ├── 200.6hregulated_TF_edges.csv   
 │       ├── 400TF.TPM.xlsx      # Only the values of TF TPM under 400 mM salt stress condition
-│       ├── 400_upregulated_TF_edges.csv        # Strongly connected edges, upregulated edges denote stronger regulatory interactions at 24 h, whereas 'down' indicates stronger interactions at 6 h (400 mM condition).
-│       └── 400_downregulated_TF_edges.csv
-│	└── test/
-│       ├── GENRI3-test.R		#Bootstrap consensus validation and network correlation analysis
+│       ├── 400_24hregulated_TF_edges.csv        # Strongly connected edges, upregulated edges denote stronger regulatory interactions at 24 h, whereas 'down' indicates stronger interactions at 6 h (400 mM condition).
+│       └── 400_6hregulated_TF_edges.csv
+│	└── bootstrap test/
+│       ├── bootstrap-GENRI3-test.R		#Bootstrap consensus validation and network correlation analysis
 │       ├── GRN_edges_200mM.csv		#the regulatory edges inferred by GENIE3 under the 200 mM NaCl condition without bootstrap 
 │       ├── GRN_stable_edges_200mM.csv		#the regulatory edges inferred by GENIE3 under the 200 mM NaCl condition with bootstrap
 │       ├── GRN_edges_400mM.csv		#the regulatory edges inferred by GENIE3 under the 400 mM NaCl condition without bootstrap
 │       └── GRN_stable_edges_400mM.csv		#the regulatory edges inferred by GENIE3 under the 200 mM NaCl condition with bootstrap
-└──_README.txt                                  
+└──README.txt                                  
 
 # Genome Assembly
 
@@ -230,3 +230,4 @@ Differential expression genes were identified using [DEseq2] v1.42.0.
 
 
 Use [GENIE3] v1.28.0 R package to reconstruct salt stress-responsive gene regulatory networks (GRNs).
+
